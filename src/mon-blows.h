@@ -35,7 +35,7 @@ struct blow_method {
 	struct blow_method *next;
 };
 
-struct blow_method *blow_methods;
+extern struct blow_method *blow_methods;
 
 /**
  * Storage for context information for effect handlers called in
@@ -76,7 +76,7 @@ struct blow_effect {
 	struct blow_effect *next;
 };
 
-struct blow_effect *blow_effects;
+extern struct blow_effect *blow_effects;
 
 /* Functions */
 int blow_index(const char *name);
