@@ -34,8 +34,6 @@
 #include "player-spell.h"
 #include "project.h"
 
-struct blow_method *blow_methods;
-struct blow_effect *blow_effects;
 struct monster_pain *pain_messages;
 struct monster_spell *monster_spells;
 struct monster_base *rb_info;
