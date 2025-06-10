@@ -9,7 +9,7 @@ press '?'.
 For more information, somewhere to upload your characters and screenshots,
 and discuss the game, try 4chan.org/vg/catalog/, and search for /rlg/
 
-If you're compiling the game yourself, read compiling.txt and good luck.
+If you're compiling the game yourself, read compiling.txt and then run ./src/angband
 
 Enjoy!
 
