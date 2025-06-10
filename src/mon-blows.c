@@ -24,6 +24,8 @@
 #include "monster.h"
 #include "mon-attack.h"
 #include "mon-blows.h"
+struct blow_method *blow_methods;
+struct blow_effect *blow_effects;
 #include "mon-lore.h"
 #include "mon-util.h"
 #include "obj-desc.h"
