@@ -48,26 +48,55 @@ subdirectories of lib/ in order to install correctly.
 Cross-building for Windows with Mingw
 -------------------------------------
 
-Many developers (as well as the auto-builder) build Angband for Windows using
-Mingw on Linux. This requires that the necessary Mingw packages are all
-installed.
+# PRECURSOR STEPS BELOW FOR RUNNING OOTB
+sudo apt install build-essential mingw-w64 make wget tar autoconf automake libtool pkg-config
 
-This type of build now also uses autotools, so you must configure it to
-cross-compile, e.g.
+In ~/Desktop/windows build of compileband/compileband-4.1-release:
+bash
+make clean
+find . -name '*.o' -delete
+sudo apt install mingw-w64
+cd ~/Desktop
+wget https://zlib.net/fossils/zlib-1.2.13.tar.gz
+tar xf zlib-1.2.13.tar.gz
+cd zlib-1.2.13
+export CHOST=i686-w64-mingw32
+export CC=${CHOST}-gcc
+./configure --prefix=$HOME/mingw32-lib
+make
+make install
+cd ~/Desktop
+wget https://download.sourceforge.net/libpng/libpng-1.6.40.tar.gz
+tar xf libpng-1.6.40.tar.gz
+cd libpng-1.6.40
+export CHOST=i686-w64-mingw32
+export CC=${CHOST}-gcc
+./configure --host=$CHOST --prefix=$HOME/mingw32-lib --with-zlib-prefix=$HOME/mingw32-lib
+make
+make install
+./configure --host=$CHOST --prefix=$HOME/mingw32-lib --with-zlib-prefix=$HOME/mingw32-lib
 
-	./autogen.sh
-	./configure --enable-win --disable-curses --build=i686-pc-linux-gnu --host=i586-mingw32msvc  
+# PRECURSOR STEPS ABOVE FOR RUNNING OOTB
 
-Mingw installs commands like 'i586-mingw32msvc-gcc'. The value of --host
-should be that same command with the '-gcc' removed. Instead of i586 you may
-see i686, amd64, etc. The value of --build should be the host you're building
-on. (See http://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/
-autoconf-2.68/html_node/Specifying-Target-Triplets.html#Specifying%20Names for
-gory details of how these triplets are arrived at)
+export CC=i686-w64-mingw32-gcc
+export WINDRES=i686-w64-mingw32-windres
+export CFLAGS="-I$HOME/mingw32-lib/include"
+export LDFLAGS="-L$HOME/mingw32-lib/lib"
 
-TODO: you will probably need to manually disable curses, or the host curses
-installation will be found, and will not be able to link properly. More
-checking of permissible combinations to configure is necessary 
+./configure --enable-win --disable-curses --build=i686-pc-linux-gnu --host=i686-w64-mingw32
+make clean
+make
+
+mkdir ~/angband-win-package
+cp src/angband.exe ~/angband-win-package/
+cp src/win/dll/*.dll ~/angband-win-package/
+cp -r lib ~/angband-win-package/
+
+# OPTIONALLY, TEST YOUR BUILD IN WINE
+
+bash
+cd ~/angband-win-package
+wine angband.exe
 
 
 Debug build
